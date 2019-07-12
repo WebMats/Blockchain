@@ -131,8 +131,8 @@ def mine():
     # We run the proof of work algorithm to get the next proof...
     last_block = blockchain.last_block
     last_proof = last_block['proof']
+    
     proof = request.get_json()["proof"]
-    print('HERE: ', proof)
     if blockchain.valid_proof(last_proof, proof):
         # We must receive a reward for finding the proof.
         # The sender is "0" to signify that this node has mine a new coin
