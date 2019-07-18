@@ -1,5 +1,6 @@
 import hashlib
 import requests
+from uuid import uuid4
 
 import sys
 
@@ -37,8 +38,9 @@ if __name__ == '__main__':
         node = int(sys.argv[1])
     else:
         node = "http://localhost:5000"
-
+    client_id = str(uuid4()).replace('-', '')
     coins_mined = 0
+    print('CLIENT ID: ', client_id)
     # Run forever until interrupted
     while True:
         # Get the last proof from the server
@@ -46,7 +48,7 @@ if __name__ == '__main__':
         data = r.json()
         new_proof = proof_of_work(data.get('proof'))
 
-        post_data = {"proof": new_proof}
+        post_data = {"proof": new_proof, "client": client_id}
 
         r = requests.post(url=node + "/mine", json=post_data)
         data = r.json()
